@@ -608,7 +608,7 @@ body.has-bf { --bf-h: 38px; }
       <div class="shop__info">
         <div class="reveal">
           <h3 class="shop__name" data-name>Your lifestyle, Your Project.</h3>
-          <p class="shop__bf" data-bf-shop hidden><span class="shop__bf-tag">Black Friday</span><span>Finisce tra <b data-bf-count>—</b></span></p>
+          <p class="shop__bf" data-bf-shop hidden><span class="shop__bf-tag">Black Friday</span><span>Offerta valida fino al 29/11 · finisce tra <b data-bf-count>—</b></span></p>
           <p class="shop__price" data-price></p>
         </div>
         <p class="shop__desc reveal" style="--d:.1s" data-desc>La prima maglietta 4U. Bianca, stampa davanti e dietro. Fatta per le serate che non finiscono e per le mattine dopo.</p>
@@ -707,8 +707,8 @@ var CONFIG = {
   blackFriday: {
     attivo: true,                        // false = nasconde tutto
     fine: '2026-11-29T23:59:59+01:00',   // dopo questa data sparisce da solo
-    testo: 'Fino a domenica 29 novembre',
-    prezzo: ''                           // es. '20 €' — se pieno, il prezzo normale appare barrato
+    testo: 'La maglietta a 20 € invece di 25 € — fino a domenica 29 novembre',
+    prezzo: '20 €'                       // prezzo scontato: il prezzo normale appare barrato
   }
 };
 
@@ -789,7 +789,7 @@ var CONFIG = {
         sizesBox.classList.remove('is-shake'); void sizesBox.offsetWidth; sizesBox.classList.add('is-shake');
         return;
       }
-      var msg = 'Ciao! Vorrei la maglietta 4U "' + CONFIG.nome + '" in taglia ' + size + '.';
+      var msg = 'Ciao! Vorrei la maglietta 4U "' + CONFIG.nome + '" in taglia ' + size + (bfOn && BF.prezzo ? ', con l\'offerta Black Friday a ' + BF.prezzo : '') + '.';
       var url = 'https://ig.me/m/' + CONFIG.instagram;
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(msg).then(function () { showToast('Messaggio copiato: incollalo nella chat di Instagram.'); }, function () {});
