@@ -451,7 +451,7 @@ body.has-bf { --bf-h: 38px; }
 </style>
 </head>
 
-<body class="is-loading">
+<body class="is-loading has-bf">
 <a class="skip" href="#progetto">Vai al contenuto</a>
 
 <!-- Simboli: logo foryourproject e 4U -->
@@ -477,7 +477,7 @@ body.has-bf { --bf-h: 38px; }
   <span class="loader__count" data-count>0</span>
 </div>
 
-<a href="#maglietta" class="bf" data-bf hidden>
+<a href="#maglietta" class="bf" data-bf>
   <div class="bf__track" aria-hidden="true">
     <div class="bf__group"><span class="bf__big">Black Friday</span><i>✦</i><span data-bf-msg>Fino a domenica 29 novembre</span><i>✦</i><span class="bf__big">Black Friday</span><i>✦</i><span data-bf-msg>Fino a domenica 29 novembre</span><i>✦</i></div>
     <div class="bf__group"><span class="bf__big">Black Friday</span><i>✦</i><span data-bf-msg>Fino a domenica 29 novembre</span><i>✦</i><span class="bf__big">Black Friday</span><i>✦</i><span data-bf-msg>Fino a domenica 29 novembre</span><i>✦</i></div>
@@ -608,8 +608,8 @@ body.has-bf { --bf-h: 38px; }
       <div class="shop__info">
         <div class="reveal">
           <h3 class="shop__name" data-name>Your lifestyle, Your Project.</h3>
-          <p class="shop__bf" data-bf-shop hidden><span class="shop__bf-tag">Black Friday</span><span>Offerta valida fino al 29/11 · finisce tra <b data-bf-count>—</b></span></p>
-          <p class="shop__price" data-price></p>
+          <p class="shop__bf" data-bf-shop><span class="shop__bf-tag">Black Friday</span><span>Offerta valida fino al 29/11 · finisce tra <b data-bf-count>—</b></span></p>
+          <p class="shop__price" data-price><s>25 €</s>20 €</p>
         </div>
         <p class="shop__desc reveal" style="--d:.1s" data-desc>La prima maglietta 4U. Bianca, stampa davanti e dietro. Fatta per le serate che non finiscono e per le mattine dopo.</p>
         <dl class="specs reveal" style="--d:.15s">
@@ -622,7 +622,7 @@ body.has-bf { --bf-h: 38px; }
         </fieldset>
         <p class="shop__error" role="alert" data-error></p>
         <div class="shop__cta reveal" style="--d:.25s">
-          <a href="#" class="pill pill--dark magnetic" data-order="ig"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ig"/></svg><span data-order-label>Ordina su Instagram</span></a>
+          <a href="#" class="pill pill--dark magnetic" data-order="ig"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ig"/></svg><span data-order-label>Ordina su Instagram — 20 €</span></a>
         </div>
         <p class="shop__local reveal" style="--d:.28s"><svg aria-hidden="true" viewBox="0 0 270 156"><use href="#fouru"/></svg><span><strong>Abiti a Bergamo o in zone limitrofe?</strong> Te la consegniamo personalmente, a mano.</span></p>
         <p class="shop__note reveal" style="--d:.3s">Scegli la taglia e scrivici in DM: ti rispondiamo con pagamento e spedizione.</p>
@@ -707,7 +707,7 @@ var CONFIG = {
   blackFriday: {
     attivo: true,                        // false = nasconde tutto
     fine: '2026-11-29T23:59:59+01:00',   // dopo questa data sparisce da solo
-    testo: 'La maglietta a 20 € invece di 25 € — fino a domenica 29 novembre',
+    testo: 'Fino a domenica 29 novembre',
     prezzo: '20 €'                       // prezzo scontato: il prezzo normale appare barrato
   }
 };
@@ -723,28 +723,17 @@ var CONFIG = {
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
   $$('[data-ig-link]').forEach(function (a) { a.href = 'https://www.instagram.com/' + CONFIG.instagram + '/'; });
   if (CONFIG.nome) $('[data-name]').textContent = CONFIG.nome;
-  $('[data-price]').textContent = CONFIG.prezzo || '';
-  if (CONFIG.prezzo) $('[data-order-label]').textContent = 'Ordina su Instagram — ' + CONFIG.prezzo;
-
   /* ---------- Black Friday ---------- */
   var BF = CONFIG.blackFriday || {};
   var bfEnd = BF.fine ? new Date(BF.fine).getTime() : 0;
-  var bfOn = BF.attivo && bfEnd > Date.now();
-  if (bfOn) {
-    document.body.classList.add('has-bf');
-    $('[data-bf]').hidden = false;
-    $('[data-bf-shop]').hidden = false;
-    if (BF.testo) {
-      $$('[data-bf-msg]').forEach(function (el) { el.textContent = BF.testo; });
-      $('[data-bf-sr]').textContent = 'Black Friday, ' + BF.testo;
-    }
-    if (BF.prezzo && CONFIG.prezzo) {
-      var pr = $('[data-price]');
-      pr.textContent = '';
-      var s = document.createElement('s'); s.textContent = CONFIG.prezzo;
-      pr.appendChild(s); pr.appendChild(document.createTextNode(BF.prezzo));
-      $('[data-order-label]').textContent = 'Ordina su Instagram — ' + BF.prezzo;
-    }
+  var bfOn = !!(BF.attivo && bfEnd > Date.now());
+  if (!bfOn) {
+    document.body.classList.remove('has-bf');
+    $('[data-bf]').hidden = true;
+    $('[data-bf-shop]').hidden = true;
+    $('[data-price]').textContent = CONFIG.prezzo || '';
+    $('[data-order-label]').textContent = CONFIG.prezzo ? 'Ordina su Instagram — ' + CONFIG.prezzo : 'Ordina su Instagram';
+  } else {
     var countEl2 = $('[data-bf-count]');
     var tickBF = function () {
       var ms = bfEnd - Date.now();
@@ -1022,5 +1011,6 @@ var CONFIG = {
   requestAnimationFrame(loop);
 })();
 </script>
+<script data-goatcounter="https://foruproject.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
